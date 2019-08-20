@@ -15,31 +15,31 @@
     <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.2.1.min.js"></script>
     <script boot-up>
         //------------------------------------
-        $vm={};$vm.ver=[0.16,0.16]; //increase ver[0] if any module changed, increase ver[1] if vm.js changed
+        $vm={};$vm.ver=[0.17,0.16]; //increase ver[0] if any module changed, increase ver[1] if vm.js changed
         //------------------------------------
-        //app urls
-//        $vm.public_url_$A='https://cleverlights.wappsystem.com.au';
-        $vm.public_url_$A='https://wappsystem.github.io/cleverlights-recruitment/';        
-        $vm.local_url_$A='http://127.0.0.1:8000/wappsystem/cleverlights-recruitment';
-        $vm.public_url_$B='https://modules.wappsystem.com.au';
-        $vm.local_url_$B='http://127.0.0.1:8000/wappsystem/modules';
+        $vm.hosting_path=window.location.href.substring(0, window.location.href.split('?')[0].lastIndexOf('/'));
+        if(window.location.hostname=='127.0.0.1' || window.location.hostname=='localhost') $vm.localhost=true;
         //------------------------------------
         //where are your start modules
         $vm.start_modules=[
-            "$A/app.html",
-            "$B/mdb/f/frame.html",
+            "$H/app.html",
+            "$H/frame.html",
         ]
+        for(i in $vm.start_modules) $vm.start_modules[i]=$vm.start_modules[i].replace('$H',$vm.hosting_path);
         //------------------------------------
         //modules used in this app
         $vm.module_list={
+            "home":                         {url:"$H/home.html",router:1},
         };
+        for(p in $vm.module_list) $vm.module_list[p].url=$vm.module_list[p].url.replace('$H',$vm.hosting_path);
         //------------------------------------
         //where are your all other modules
         $vm.app_modules=[
-            "$A/components/cleverlights-home.js",
-            "$A/components/cleverlights.js",
+            //"$A/components/cleverlights-home.js",
+            "$H/components/cleverlights.js",
         ]
         //------------------------------------
+        for(i in $vm.app_modules) $vm.app_modules[i]=$vm.app_modules[i].replace('$H',$vm.hosting_path);
         
         
         
@@ -50,24 +50,11 @@
         //------------------------------------
         $VmAPI={};$vm.start_time=new Date().getTime();
         //------------------------------------
-        //replace the url
-        $vm.replace_url=function(url){
-            var urlR=url.replace("$A",$vm.public_url_$A);
-                urlR=urlR.replace("$B",$vm.public_url_$B);
-            if($vm.localhost==true) urlR=urlR.replace($vm.public_url_$A,$vm.local_url_$A);
-            if($vm.localhost==true) urlR=urlR.replace($vm.public_url_$B,$vm.local_url_$B);
-            return urlR;
-        }
-        //------------------------------------
-        if(window.location.hostname=='127.0.0.1' || window.location.hostname=='localhost') $vm.localhost=true;
-        for(p in $vm.start_modules) $vm.start_modules[p]=$vm.replace_url($vm.start_modules[p]);
-        for(p in $vm.app_modules) $vm.app_modules[p]=$vm.replace_url($vm.app_modules[p]);
-        //------------------------------------
         $vm._I=0; $vm._N=$vm.start_modules.length+$vm.app_modules.length;
         $vm._boot=function(){
             $vm._I++;
             if($vm._I==$vm._N){
-                for(p in $vm.module_list) $vm.module_list[p].url=$vm.replace_url($vm.module_list[p].url);
+                //for(p in $vm.module_list) $vm.module_list[p].url=$vm.replace_url($vm.module_list[p].url);
                 $vm._start();
             }
         }
