@@ -1,8 +1,11 @@
 (function(){
     var modules={
-        "panel-main-cleverlights":    			 {url:"$H/modules/elig-questions-data.html",Table:"cleverlights-recruitment-record"},
+        "panel-main-cleverlights":    			 {url:"$H/m/elig-questions-data.html",Table:"cleverlights-recruitment-record"},
+        "panel-main-cleverlights-eligible":      {url:"$H/m/elig-questions-eligible-data.html",Table:"cleverlights-recruitment-record"},
+        "panel-main-cleverlights-non-eligible":  {url:"$H/m/elig-questions-non-eligible-data.html",Table:"cleverlights-recruitment-record"},
     }
     //for(m in modules){$vm.module_list[m]=modules[m];}
+
 
     for(p in modules){
         $vm.module_list[p]=modules[p];
@@ -13,4 +16,5 @@
             $vm.module_list[p].Table="demo-"+$vm.module_list[p].Table;
         }
     }
+
 })();
